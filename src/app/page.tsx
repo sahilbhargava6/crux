@@ -13,10 +13,14 @@ import ContactForm from '@/components/ContactForm';
 const Scene = dynamic(() => import('@/components/three/Scene'), { ssr: false });
 
 const projects = [
-  { img: '/project1.png', title: 'LuxeCart E-Commerce', tag: 'Web Development', desc: 'Full-stack e-commerce platform with modern UI' },
-  { img: '/project2.png', title: 'FitTrack Pro', tag: 'Mobile App', desc: 'Cross-platform fitness tracking application' },
-  { img: '/project3.png', title: 'Novara Brand Identity', tag: 'Branding', desc: 'Complete brand identity system & guidelines' },
-  { img: '/project4.png', title: 'Bloom Social Campaign', tag: 'Social Media', desc: 'Multi-platform social media strategy & content' },
+  { img: '/project1.png', title: 'MND Designs', tag: 'Creative Portfolio', desc: 'Modern web experience for a design studio.', link: 'https://mnddesigns.in/' },
+  { img: '/miraiglobalpolymers.png', title: 'Mirai Global Polymers', tag: 'Corporate Web', desc: 'B2B industrial website with a professional edge.', link: 'https://miraiglobalpolymers.com/' },
+  { img: '/theaugrandair.png', title: 'The Augrand Air', tag: 'E-Commerce', desc: 'Premium online shopping experience.', link: 'https://www.theaugrandair.in/' },
+  { img: '/klothix.png', title: 'Klothix', tag: 'E-Commerce', desc: 'Fashion and apparel digital storefront.', link: 'https://klothix.com/' },
+  { img: '/travelsamurais.png', title: 'Travel Samurais', tag: 'Travel & Tourism', desc: 'Booking and discovery platform for travelers.', link: 'https://www.travelsamurais.com/' },
+  { img: '/thecareergadget.png', title: 'The Career Gadget', tag: 'EdTech / Consulting', desc: 'Career guidance and consulting portal.', link: 'https://thecareergadget.com/' },
+  { img: '/healingourth.png', title: 'Healing Ourth', tag: 'Health & Wellness', desc: 'Holistic healing and wellness platform.', link: 'https://www.healingourth.com/' },
+  { img: '/consideritdone.png', title: 'Consider It Done', tag: 'Corporate Services', desc: 'Professional services digital presence.', link: 'https://www.consider-itdone.com/' },
 ];
 
 const services = [
@@ -124,14 +128,14 @@ export default function Home() {
           <div className="portfolio-grid">
             {projects.map((project, i) => (
               <ScrollReveal key={i} delay={i * 0.1}>
-                <div className="project-card">
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-card" style={{ display: 'block', textDecoration: 'none' }}>
                   <img src={project.img} alt={project.title} />
                   <div className="project-overlay">
                     <span className="project-tag">{project.tag}</span>
                     <h3>{project.title}</h3>
                     <p>{project.desc}</p>
                   </div>
-                </div>
+                </a>
               </ScrollReveal>
             ))}
           </div>
