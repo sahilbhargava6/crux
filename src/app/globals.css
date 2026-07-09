@@ -8,7 +8,7 @@
   --crux-purple: #421553;
   --crux-black: #000000;
   --crux-white: #ffffff;
-  --crux-gray: #888888;
+  --crux-gray: #421553;
   --crux-light-gray: #e8e5e3;
   
   --font-heading: 'Space Grotesk', sans-serif;
@@ -201,7 +201,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar-logo img {
-  width: 38px;
+  width: 48px;
   height: auto;
 }
 
@@ -270,7 +270,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -2px;
 }
 
-.hero-content > p {
+.hero-content .hero-desc {
   font-size: 1.15rem;
   line-height: 1.75;
   color: var(--crux-gray);
@@ -585,7 +585,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   line-height: 1;
 }
 
@@ -650,7 +650,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer-brand p {
-  color: var(--crux-gray);
+  color: rgba(255, 255, 255, 0.6);
   margin-top: 18px;
   line-height: 1.7;
   max-width: 320px;
@@ -672,7 +672,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer ul li {
-  color: var(--crux-gray);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.9rem;
   transition: color 0.2s;
   cursor: pointer;
@@ -686,7 +686,7 @@ h1, h2, h3, h4, h5, h6 {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding-top: 24px;
   text-align: center;
-  color: var(--crux-gray);
+  color: rgba(255, 255, 255, 0.4);
   font-size: 0.8rem;
   letter-spacing: 0.5px;
 }

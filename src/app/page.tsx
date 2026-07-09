@@ -6,6 +6,9 @@ import Marquee from '@/components/Marquee';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import Loader from '@/components/Loader';
 import CustomCursor from '@/components/CustomCursor';
+import TechStack from '@/components/TechStack';
+import FAQ from '@/components/FAQ';
+import ContactForm from '@/components/ContactForm';
 
 const Scene = dynamic(() => import('@/components/three/Scene'), { ssr: false });
 
@@ -54,7 +57,7 @@ export default function Home() {
               </h1>
             </ScrollReveal>
             <ScrollReveal delay={0.2}>
-              <p>
+              <p className="hero-desc">
                 A premium creative studio specializing in Web & App Development,
                 UI/UX Design, Branding, Graphics, and Social Media Growth.
               </p>
@@ -94,6 +97,18 @@ export default function Home() {
               </ScrollReveal>
             ))}
           </div>
+        </section>
+
+        {/* ═══════════ TECH STACK ═══════════ */}
+        <section id="tech-stack" className="services" style={{ background: 'var(--crux-white)' }}>
+          <ScrollReveal>
+            <p className="section-label">Tech Stack</p>
+            <h2 className="section-title">From Pixels to<br />Production</h2>
+            <p className="section-subtitle">
+              We bridge the gap between stunning visual design and high-performance engineering using industry-standard tools.
+            </p>
+          </ScrollReveal>
+          <TechStack />
         </section>
 
         {/* ═══════════ PORTFOLIO ═══════════ */}
@@ -206,6 +221,19 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ═══════════ FAQ ═══════════ */}
+        <section id="faq" className="about" style={{ background: 'var(--crux-white)' }}>
+          <ScrollReveal>
+            <p className="section-label" style={{ justifyContent: 'center' }}>Transparency First</p>
+            <h2 className="section-title" style={{ textAlign: 'center' }}>Frequently Asked Questions</h2>
+          </ScrollReveal>
+          <ScrollReveal delay={0.1}>
+            <div style={{ marginTop: '50px' }}>
+              <FAQ />
+            </div>
+          </ScrollReveal>
+        </section>
+
         {/* ═══════════ CTA / CONTACT ═══════════ */}
         <section id="contact" className="cta-section">
           <ScrollReveal>
@@ -215,16 +243,12 @@ export default function Home() {
             <h2>Let&apos;s Create Something<br /><span className="gradient-text">Extraordinary</span></h2>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p>
-              Have a project in mind? We&apos;d love to hear about it. Let&apos;s discuss
-              how CRUX.TSC can bring your vision to life.
+            <p style={{ marginBottom: '60px' }}>
+              Have a project in mind? We&apos;d love to hear about it. Tell us what you need and our team will get back to you with a custom proposal.
             </p>
           </ScrollReveal>
-          <ScrollReveal delay={0.3}>
-            <a href="mailto:hello@cruxtsc.com" className="btn-primary" style={{ fontSize: '1.1rem', padding: '18px 44px' }}>
-              Start a Project →
-            </a>
-          </ScrollReveal>
+          
+          <ContactForm />
         </section>
 
       </div>

@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="footer-grid">
         <div className="footer-brand">
           <div className="navbar-logo">
-            <img src="/logo.png" alt="CRUX.TSC" style={{ width: '38px', filter: 'brightness(0) invert(1)' }} />
+            <img src="/logo.png" alt="CRUX.TSC" style={{ width: '48px' }} />
             <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.4rem', color: 'white' }}>
               CRUX.TSC
             </span>

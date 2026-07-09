@@ -39,7 +39,7 @@ export default function Marquee() {
             fontWeight: 700,
             letterSpacing: '4px',
             color: 'var(--crux-black)',
-            opacity: 0.15,
+            opacity: 0.9,
             paddingRight: '60px',
           }}>
             {content}
