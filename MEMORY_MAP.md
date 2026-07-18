@@ -55,6 +55,7 @@ d:\crux\
 │       ├── 📄 ContactForm.tsx     # 4-Step interactive project inquiry wizard with webhook POST
 │       ├── 📄 ProjectCard.tsx     # macOS browser window card with live iframe demo & interaction toggle
 │       ├── 📄 ProjectDemoModal.tsx # Fullscreen interactive modal with desktop/tablet/mobile viewports
+│       ├── 📄 FreeAuditSection.tsx # Top-of-funnel lead magnet for free 24-hr UX/speed video breakdowns
 │       │
 │       └── 📁 three\              # 3D Canvas & WebGL Components
 │           └── 📄 Scene.tsx       # R3F Canvas rendering AnimatedLogo, Particles & FloatingAccents
@@ -86,7 +87,8 @@ graph TD
         MainContent --> Marquee1[Marquee.tsx<br/>Ticker 1]
         MainContent --> ServicesSection[Services Section<br/>6 Glass Cards]
         MainContent --> TechStackSection[Tech Stack Section<br/>TechStack.tsx]
-        MainContent --> PortfolioSection[Selected Work Section<br/>8 ProjectCards + DemoModal]
+        MainContent --> PortfolioSection[Selected Work Section<br/>8 ProjectCards + Case Study Metrics]
+        MainContent --> FreeAuditSection[Free Audit Section<br/>FreeAuditSection.tsx]
         MainContent --> AboutSection[About / Stats Section]
         MainContent --> Marquee2[Marquee.tsx<br/>Ticker 2]
         MainContent --> TestimonialsSection[Testimonials Section<br/>3 Client Quotes]
@@ -153,9 +155,13 @@ graph TD
   * Client-side state tracking `openIndex`. Uses Framer Motion's `<AnimatePresence>` and `<motion.div>` for smooth height transitions (`height: 'auto'`) and `+` icon 45-degree rotation.
 * **[ProjectCard.tsx](file:///d:/crux/src/components/ProjectCard.tsx)**:
   * Renders each project inside a sleek macOS browser frame (`● ● ●` controls and address bar `🔒 hostname`).
-  * Features dual-view support: live interactive lazy-loaded `iframe` or clean thumbnail view, plus an inline `🟢 Live Interactive Mode` toggle protecting main page scroll when browsing.
+  * Displays **Quantifiable ROI & Business Impact metrics** (`🚀 +140% Inquiry Rate` • `⚡ 0.8s Page Load`) right inside the overlay.
+  * Features dual-view support: live interactive lazy-loaded `iframe` or clean thumbnail view (`viewMode = 'image'` default), plus an inline `🟢 Live Interactive Mode` toggle.
 * **[ProjectDemoModal.tsx](file:///d:/crux/src/components/ProjectDemoModal.tsx)**:
-  * Fullscreen Framer Motion overlay (`AnimatePresence`) for testing live websites with responsive viewport toggles: `💻 Desktop` (`100%`), `📟 Tablet` (`768px`), and `📱 Mobile` (`375px`). Also includes live reload (`↻`) and open tab (`↗`) tools.
+  * Fullscreen Framer Motion overlay (`AnimatePresence`) for testing live websites with responsive viewport toggles: `💻 Desktop` (`100%`), `📟 Tablet` (`768px`), and `📱 Mobile` (`375px`), plus a dedicated Case Study & ROI Banner.
+* **[FreeAuditSection.tsx](file:///d:/crux/src/components/FreeAuditSection.tsx)**:
+  * High-converting top-of-funnel lead magnet container placed after the Selected Work section.
+  * Offers a 100% free 24-hour custom Loom video audit uncovering UX bottlenecks and speed issues. Submits directly to the Google Apps Script Webhook (`mode: "no-cors"`).
 
 ---
 

@@ -25,6 +25,27 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
     }
   }, [viewMode]);
 
+  const renderMetricsAndImpact = () => (
+    <div className="metrics-impact-box">
+      {project.metrics && project.metrics.length > 0 && (
+        <div className="metrics-grid">
+          {project.metrics.map((m, idx) => (
+            <div key={idx} className="metric-badge">
+              <span className="metric-val">{m.value}</span>
+              <span className="metric-lbl">{m.label}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {project.impact && (
+        <div className="impact-line">
+          <span className="impact-icon">⚡</span>
+          <span className="impact-text">{project.impact}</span>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="browser-card">
       {/* ─── MAC BROWSER WINDOW HEADER ─── */}
@@ -102,6 +123,8 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
                   <h3>{project.title}</h3>
                   <p>{project.desc}</p>
 
+                  {renderMetricsAndImpact()}
+
                   <div className="overlay-buttons">
                     <button
                       type="button"
@@ -152,6 +175,9 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
                 <span className="project-tag">{project.tag}</span>
                 <h3>{project.title}</h3>
                 <p>{project.desc}</p>
+
+                {renderMetricsAndImpact()}
+
                 <div className="overlay-buttons">
                   <button
                     type="button"
@@ -336,12 +362,12 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
           left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(0deg, rgba(12, 10, 18, 0.94) 0%, rgba(12, 10, 18, 0.4) 60%, rgba(12, 10, 18, 0.1) 100%);
+          background: linear-gradient(0deg, rgba(12, 10, 18, 0.96) 0%, rgba(12, 10, 18, 0.65) 55%, rgba(12, 10, 18, 0.15) 100%);
           color: white;
           display: flex;
           flex-direction: column;
           justify-content: flex-end;
-          padding: 28px;
+          padding: 24px 28px;
           opacity: 0;
           transition: opacity 0.35s ease;
           z-index: 3;
@@ -369,42 +395,95 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
 
         .project-tag {
           display: inline-block;
-          padding: 4px 12px;
+          padding: 3px 10px;
           border-radius: 20px;
           background: var(--crux-red);
-          font-size: 0.72rem;
-          font-weight: 600;
+          font-size: 0.68rem;
+          font-weight: 700;
           letter-spacing: 1px;
           text-transform: uppercase;
-          margin-bottom: 8px;
-        }
-
-        .overlay-content h3 {
-          font-size: 1.4rem;
           margin-bottom: 6px;
         }
 
+        .overlay-content h3 {
+          font-size: 1.35rem;
+          margin-bottom: 4px;
+        }
+
         .overlay-content p {
-          font-size: 0.86rem;
+          font-size: 0.84rem;
           color: rgba(255, 255, 255, 0.75);
-          margin-bottom: 18px;
-          line-height: 1.5;
+          margin-bottom: 12px;
+          line-height: 1.45;
+        }
+
+        .metrics-impact-box {
+          margin-bottom: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .metrics-grid {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .metric-badge {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 237, 0, 0.35);
+          padding: 4px 10px;
+          border-radius: 30px;
+          backdrop-filter: blur(4px);
+        }
+
+        .metric-val {
+          color: var(--crux-yellow);
+          font-weight: 700;
+          font-size: 0.82rem;
+          font-family: var(--font-heading);
+        }
+
+        .metric-lbl {
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 0.74rem;
+        }
+
+        .impact-line {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 0.78rem;
+          color: #ffd6e7;
+          background: rgba(127, 28, 95, 0.35);
+          border: 1px solid rgba(127, 28, 95, 0.6);
+          padding: 4px 12px;
+          border-radius: 8px;
+          line-height: 1.35;
+        }
+
+        .impact-icon {
+          font-size: 0.9rem;
         }
 
         .overlay-buttons {
           display: flex;
-          gap: 10px;
+          gap: 8px;
           flex-wrap: wrap;
         }
 
         .btn-interact {
-          padding: 10px 18px;
+          padding: 8px 16px;
           background: linear-gradient(135deg, var(--crux-red), var(--crux-magenta));
           border: none;
           border-radius: 30px;
           color: white;
           font-family: var(--font-heading);
-          font-size: 0.84rem;
+          font-size: 0.8rem;
           font-weight: 600;
           cursor: pointer;
           transition: transform 0.2s, box-shadow 0.2s;
@@ -416,13 +495,13 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
         }
 
         .btn-fullscreen {
-          padding: 10px 16px;
+          padding: 8px 14px;
           background: rgba(255, 255, 255, 0.12);
           border: 1px solid rgba(255, 255, 255, 0.3);
           border-radius: 30px;
           color: white;
           font-family: var(--font-heading);
-          font-size: 0.84rem;
+          font-size: 0.8rem;
           font-weight: 600;
           cursor: pointer;
           backdrop-filter: blur(6px);

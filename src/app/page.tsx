@@ -12,18 +12,115 @@ import FAQ from '@/components/FAQ';
 import ContactForm from '@/components/ContactForm';
 import ProjectCard from '@/components/ProjectCard';
 import ProjectDemoModal, { ProjectItem } from '@/components/ProjectDemoModal';
+import FreeAuditSection from '@/components/FreeAuditSection';
 
 const Scene = dynamic(() => import('@/components/three/Scene'), { ssr: false });
 
-const projects = [
-  { img: '/project1.png', title: 'MND Designs', tag: 'Creative Portfolio', desc: 'Modern web experience for a design studio.', link: 'https://mnddesigns.in/' },
-  { img: '/miraiglobalpolymers.png', title: 'Mirai Global Polymers', tag: 'Corporate Web', desc: 'B2B industrial website with a professional edge.', link: 'https://miraiglobalpolymers.com/' },
-  { img: '/theaugrandair.png', title: 'The Augrand Air', tag: 'E-Commerce', desc: 'Premium online shopping experience.', link: 'https://www.theaugrandair.in/' },
-  { img: '/klothix.png', title: 'Klothix', tag: 'E-Commerce', desc: 'Fashion and apparel digital storefront.', link: 'https://klothix.com/' },
-  { img: '/travelsamurais.png', title: 'Travel Samurais', tag: 'Travel & Tourism', desc: 'Booking and discovery platform for travelers.', link: 'https://www.travelsamurais.com/' },
-  { img: '/thecareergadget.png', title: 'The Career Gadget', tag: 'EdTech / Consulting', desc: 'Career guidance and consulting portal.', link: 'https://thecareergadget.com/' },
-  { img: '/healingourth.png', title: 'Healing Ourth', tag: 'Health & Wellness', desc: 'Holistic healing and wellness platform.', link: 'https://www.healingourth.com/' },
-  { img: '/consideritdone.png', title: 'Consider It Done', tag: 'Corporate Services', desc: 'Professional services digital presence.', link: 'https://www.consider-itdone.com/' },
+const projects: ProjectItem[] = [
+  {
+    img: '/project1.png',
+    title: 'MND Designs',
+    tag: 'Creative Portfolio',
+    desc: 'Modern web experience for a design studio.',
+    link: 'https://mnddesigns.in/',
+    impact: 'Re-engineered digital showcase leading to a 2.4x surge in high-ticket client bookings.',
+    metrics: [
+      { value: '+140%', label: 'Inquiry Rate' },
+      { value: '0.8s', label: 'Page Load' },
+      { value: '100/100', label: 'Lighthouse' }
+    ]
+  },
+  {
+    img: '/miraiglobalpolymers.png',
+    title: 'Mirai Global Polymers',
+    tag: 'Corporate Web',
+    desc: 'B2B industrial website with a professional edge.',
+    link: 'https://miraiglobalpolymers.com/',
+    impact: 'Transformed B2B industrial catalog into a 24/7 global lead generation funnel.',
+    metrics: [
+      { value: '+185%', label: 'B2B Leads' },
+      { value: '99.9%', label: 'Uptime SLA' },
+      { value: '3 Weeks', label: 'Delivery' }
+    ]
+  },
+  {
+    img: '/theaugrandair.png',
+    title: 'The Augrand Air',
+    tag: 'E-Commerce',
+    desc: 'Premium online shopping experience.',
+    link: 'https://www.theaugrandair.in/',
+    impact: 'High-converting luxury checkout experience with sub-second page transitions.',
+    metrics: [
+      { value: '+65%', label: 'Checkout Conv.' },
+      { value: '-42%', label: 'Abandonment' },
+      { value: '4x', label: 'Speed Boost' }
+    ]
+  },
+  {
+    img: '/klothix.png',
+    title: 'Klothix',
+    tag: 'E-Commerce',
+    desc: 'Fashion and apparel digital storefront.',
+    link: 'https://klothix.com/',
+    impact: 'Fashion storefront optimized for rapid mobile browsing and instant checkout.',
+    metrics: [
+      { value: '+210%', label: 'Mobile Sales' },
+      { value: '98/100', label: 'Web Vitals' },
+      { value: '+45%', label: 'Avg Order Value' }
+    ]
+  },
+  {
+    img: '/travelsamurais.png',
+    title: 'Travel Samurais',
+    tag: 'Travel & Tourism',
+    desc: 'Booking and discovery platform for travelers.',
+    link: 'https://www.travelsamurais.com/',
+    impact: 'Interactive booking engine that turned casual explorers into confirmed travelers.',
+    metrics: [
+      { value: '3x', label: 'Booking Vol.' },
+      { value: '-60%', label: 'Bounce Rate' },
+      { value: '1.2s', label: 'Search Speed' }
+    ]
+  },
+  {
+    img: '/thecareergadget.png',
+    title: 'The Career Gadget',
+    tag: 'EdTech / Consulting',
+    desc: 'Career guidance and consulting portal.',
+    link: 'https://thecareergadget.com/',
+    impact: 'Streamlined scheduling and portal experience driving record student consultation sign-ups.',
+    metrics: [
+      { value: '+320%', label: 'Consultations' },
+      { value: '100%', label: 'Automated CRM' },
+      { value: '5 Stars', label: 'User Rating' }
+    ]
+  },
+  {
+    img: '/healingourth.png',
+    title: 'Healing Ourth',
+    tag: 'Health & Wellness',
+    desc: 'Holistic healing and wellness platform.',
+    link: 'https://www.healingourth.com/',
+    impact: 'Calming, accessible wellness ecosystem optimized for organic SEO growth and patient engagement.',
+    metrics: [
+      { value: '+120%', label: 'Retention' },
+      { value: '0.9s', label: 'Load Speed' },
+      { value: '+85%', label: 'Organic Traffic' }
+    ]
+  },
+  {
+    img: '/consideritdone.png',
+    title: 'Consider It Done',
+    tag: 'Corporate Services',
+    desc: 'Professional services digital presence.',
+    link: 'https://www.consider-itdone.com/',
+    impact: 'Executive-grade corporate web presence that builds instant credibility for enterprise contracts.',
+    metrics: [
+      { value: '+150%', label: 'Contracts' },
+      { value: '100/100', label: 'Security & SEO' },
+      { value: '14 Days', label: 'Turnaround' }
+    ]
+  },
 ];
 
 const services = [
@@ -142,6 +239,9 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        {/* ═══════════ FREE UX / PERFORMANCE AUDIT MAGNET ═══════════ */}
+        <FreeAuditSection />
 
         {/* ═══════════ ABOUT ═══════════ */}
         <section id="about" className="about">

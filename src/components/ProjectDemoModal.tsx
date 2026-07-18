@@ -3,12 +3,19 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+export interface MetricItem {
+  label: string;
+  value: string;
+}
+
 export interface ProjectItem {
   img: string;
   title: string;
   tag: string;
   desc: string;
   link: string;
+  impact?: string;
+  metrics?: MetricItem[];
 }
 
 interface ProjectDemoModalProps {
@@ -258,6 +265,54 @@ export default function ProjectDemoModal({ project, onClose }: ProjectDemoModalP
               </button>
             </div>
           </div>
+
+          {/* ─── CASE STUDY & ROI METRICS BANNER ─── */}
+          {(project.metrics || project.impact) && (
+            <div
+              style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                padding: '10px 20px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '12px',
+                fontSize: '0.84rem',
+                flexShrink: 0,
+              }}
+            >
+              {project.impact && (
+                <div style={{ color: 'rgba(255, 255, 255, 0.92)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ background: 'rgba(255, 0, 0, 0.2)', color: 'var(--crux-red)', padding: '2px 8px', borderRadius: '12px', fontWeight: 700, fontSize: '0.72rem', textTransform: 'uppercase' }}>
+                    Case Study Impact
+                  </span>
+                  <span>{project.impact}</span>
+                </div>
+              )}
+              {project.metrics && (
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                  {project.metrics.map((m, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        background: 'rgba(255, 0, 0, 0.12)',
+                        border: '1px solid rgba(255, 0, 0, 0.3)',
+                        padding: '4px 12px',
+                        borderRadius: '20px',
+                      }}
+                    >
+                      <span style={{ color: 'var(--crux-yellow)', fontWeight: 700, fontSize: '0.88rem' }}>{m.value}</span>
+                      <span style={{ color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.78rem' }}>{m.label}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* ─── IFRAME CONTAINER AREA ─── */}
           <div
