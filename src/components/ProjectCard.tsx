@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ProjectItem } from './ProjectDemoModal';
 
 interface ProjectCardProps {
@@ -11,9 +11,19 @@ interface ProjectCardProps {
 export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) {
   const [isInteractive, setIsInteractive] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [viewMode, setViewMode] = useState<'iframe' | 'image'>('iframe');
+  // Default to 'image' so all 8 cards load instantly (0ms) without initiating 8 heavy remote browser sessions
+  const [viewMode, setViewMode] = useState<'iframe' | 'image'>('image');
 
   const hostname = project.link.replace(/^https?:\/\//, '').replace(/\/$/, '');
+
+  // Safety timer: automatically clear loading badge after 3 seconds even if remote analytics delay onLoad
+  useEffect(() => {
+    if (viewMode === 'iframe') {
+      setIframeLoaded(false);
+      const timer = setTimeout(() => setIframeLoaded(true), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [viewMode]);
 
   return (
     <div className="browser-card">
@@ -28,6 +38,9 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
         <div className="browser-url-bar">
           <span className="url-lock">🔒</span>
           <span className="url-text">{hostname}</span>
+          {viewMode === 'iframe' && !iframeLoaded && (
+            <span className="mini-status">⏳ Loading...</span>
+          )}
         </div>
 
         <div className="browser-actions">
@@ -37,10 +50,10 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
               e.stopPropagation();
               setViewMode(viewMode === 'iframe' ? 'image' : 'iframe');
             }}
-            className="action-btn"
+            className={`action-btn ${viewMode === 'iframe' ? 'active-mode' : ''}`}
             title={viewMode === 'iframe' ? "Switch to Thumbnail View" : "Switch to Live Iframe Demo"}
           >
-            {viewMode === 'iframe' ? '🌐 Live Demo' : '🖼️ Thumbnail'}
+            {viewMode === 'iframe' ? '🟢 Live Iframe' : '🌐 Load Live Demo'}
           </button>
 
           <button
@@ -68,14 +81,8 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
       >
         {viewMode === 'iframe' ? (
           <>
-            {/* Fallback image / spinner underneath while iframe loads */}
-            {!iframeLoaded && (
-              <div className="iframe-loading-overlay">
-                <div className="mini-spinner" />
-                <span>Loading live site...</span>
-                <img src={project.img} alt={project.title} className="bg-blur-thumb" />
-              </div>
-            )}
+            {/* Background thumbnail visible immediately while iframe renders */}
+            <img src={project.img} alt={project.title} className="bg-blur-thumb" />
 
             <iframe
               src={project.link}
@@ -125,7 +132,7 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
             {/* Active interactive badge indicator */}
             {isInteractive && (
               <div className="interactive-badge" onClick={(e) => e.stopPropagation()}>
-                <span>🟢 Live Interactive Mode</span>
+                <span>🟢 Live Interactive Mode Active</span>
                 <button
                   type="button"
                   onClick={() => setIsInteractive(false)}
@@ -137,7 +144,7 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
             )}
           </>
         ) : (
-          /* Thumbnail view mode */
+          /* Thumbnail view mode (Instant 0ms load) */
           <div className="thumbnail-view" onClick={() => onOpenModal(project)}>
             <img src={project.img} alt={project.title} className="thumb-img" />
             <div className="card-hover-overlay always-visible">
@@ -219,7 +226,7 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
 
         .browser-url-bar {
           flex: 1;
-          max-width: 260px;
+          max-width: 280px;
           height: 26px;
           background: rgba(0, 0, 0, 0.35);
           border-radius: 6px;
@@ -237,7 +244,17 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          flex: 1;
           color: #4da6ff;
+        }
+
+        .mini-status {
+          font-size: 0.7rem;
+          padding: 2px 6px;
+          background: rgba(255, 237, 0, 0.15);
+          color: #ffed00;
+          border-radius: 10px;
+          white-space: nowrap;
         }
 
         .browser-actions {
@@ -260,6 +277,12 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
         .action-btn:hover {
           background: rgba(255, 255, 255, 0.15);
           color: white;
+        }
+
+        .active-mode {
+          background: rgba(39, 201, 63, 0.18);
+          border-color: rgba(39, 201, 63, 0.4);
+          color: #5cf274;
         }
 
         .highlight-btn {
@@ -291,38 +314,8 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
           height: 100%;
           border: none;
           background: white;
-          transition: opacity 0.4s ease;
-        }
-
-        .iframe-loading-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          background: #16161a;
-          color: white;
-          gap: 12px;
-          font-family: var(--font-heading);
-          font-size: 0.95rem;
-          z-index: 2;
-        }
-
-        .mini-spinner {
-          width: 32px;
-          height: 32px;
-          border: 3px solid rgba(255, 255, 255, 0.15);
-          border-top-color: var(--crux-red);
-          border-radius: 50%;
-          animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-          to { transform: rotate(360deg); }
+          position: relative;
+          z-index: 1;
         }
 
         .bg-blur-thumb {
@@ -332,9 +325,9 @@ export default function ProjectCard({ project, onOpenModal }: ProjectCardProps) 
           width: 100%;
           height: 100%;
           object-fit: cover;
-          opacity: 0.25;
-          filter: blur(8px);
-          z-index: -1;
+          opacity: 0.35;
+          filter: blur(6px);
+          z-index: 0;
         }
 
         .card-hover-overlay {

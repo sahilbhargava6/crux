@@ -22,9 +22,14 @@ export default function ProjectDemoModal({ project, onClose }: ProjectDemoModalP
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    setIframeLoaded(false);
-    setDeviceMode('desktop');
-  }, [project]);
+    if (project) {
+      setIframeLoaded(false);
+      setDeviceMode('desktop');
+      // Safety timer: clear loading state automatically after 3 seconds if external analytics delay onLoad
+      const timer = setTimeout(() => setIframeLoaded(true), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [project, refreshKey]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -156,9 +161,15 @@ export default function ProjectDemoModal({ project, onClose }: ProjectDemoModalP
               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, color: '#4da6ff' }}>
                 {project.link}
               </span>
-              <span style={{ fontSize: '0.75rem', padding: '2px 8px', background: 'rgba(255, 0, 0, 0.2)', color: '#ff6666', borderRadius: '12px', fontWeight: 600 }}>
-                Live Demo
-              </span>
+              {!iframeLoaded ? (
+                <span style={{ fontSize: '0.72rem', padding: '2px 8px', background: 'rgba(255, 237, 0, 0.15)', color: '#ffed00', borderRadius: '12px', fontWeight: 600 }}>
+                  ⏳ Connecting...
+                </span>
+              ) : (
+                <span style={{ fontSize: '0.72rem', padding: '2px 8px', background: 'rgba(39, 201, 63, 0.2)', color: '#5cf274', borderRadius: '12px', fontWeight: 600 }}>
+                  🟢 Live Connected
+                </span>
+              )}
             </div>
 
             {/* Device Viewport Toggle & Actions */}
@@ -261,45 +272,23 @@ export default function ProjectDemoModal({ project, onClose }: ProjectDemoModalP
               padding: deviceMode !== 'desktop' ? '24px' : '0',
             }}
           >
-            {/* Loading / Fallback Indicator */}
-            {!iframeLoaded && (
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: '#111114',
-                  zIndex: 5,
-                  gap: '16px',
-                }}
-              >
-                <div className="demo-spinner" />
-                <div style={{ color: 'white', fontFamily: 'var(--font-heading)', fontSize: '1.2rem', letterSpacing: '1px' }}>
-                  Connecting to <span style={{ color: 'var(--crux-red)' }}>{project.title}</span>...
-                </div>
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', maxWidth: '400px', textAlign: 'center' }}>
-                  Loading live interactive environment. If the website has security restrictions against iframes, you can use the &quot;Open Tab ↗&quot; button above.
-                </p>
-                <img
-                  src={project.img}
-                  alt={project.title}
-                  style={{
-                    width: '280px',
-                    borderRadius: '12px',
-                    opacity: 0.2,
-                    filter: 'blur(2px)',
-                    marginTop: '12px',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                  }}
-                />
-              </div>
-            )}
+            {/* Soft non-blocking background thumbnail while iframe renders */}
+            <img
+              src={project.img}
+              alt={project.title}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                opacity: iframeLoaded ? 0 : 0.35,
+                filter: 'blur(8px)',
+                transition: 'opacity 0.5s ease',
+                pointerEvents: 'none',
+              }}
+            />
 
             {/* Device frame when mobile/tablet */}
             <div
@@ -314,6 +303,7 @@ export default function ProjectDemoModal({ project, onClose }: ProjectDemoModalP
                 overflow: 'hidden',
                 position: 'relative',
                 transition: 'width 0.35s ease, max-height 0.35s ease',
+                zIndex: 1,
               }}
             >
               <iframe
