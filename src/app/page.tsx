@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import ScrollReveal from '@/components/ScrollReveal';
 import Marquee from '@/components/Marquee';
@@ -9,6 +10,8 @@ import CustomCursor from '@/components/CustomCursor';
 import TechStack from '@/components/TechStack';
 import FAQ from '@/components/FAQ';
 import ContactForm from '@/components/ContactForm';
+import ProjectCard from '@/components/ProjectCard';
+import ProjectDemoModal, { ProjectItem } from '@/components/ProjectDemoModal';
 
 const Scene = dynamic(() => import('@/components/three/Scene'), { ssr: false });
 
@@ -39,8 +42,11 @@ const testimonials = [
 ];
 
 export default function Home() {
+  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+
   return (
     <>
+      <ProjectDemoModal project={selectedProject} onClose={() => setSelectedProject(null)} />
       <Loader />
       <CustomCursor />
       <Scene />
@@ -128,14 +134,10 @@ export default function Home() {
           <div className="portfolio-grid">
             {projects.map((project, i) => (
               <ScrollReveal key={i} delay={i * 0.1}>
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-card" style={{ display: 'block', textDecoration: 'none' }}>
-                  <img src={project.img} alt={project.title} />
-                  <div className="project-overlay">
-                    <span className="project-tag">{project.tag}</span>
-                    <h3>{project.title}</h3>
-                    <p>{project.desc}</p>
-                  </div>
-                </a>
+                <ProjectCard
+                  project={project}
+                  onOpenModal={(proj) => setSelectedProject(proj)}
+                />
               </ScrollReveal>
             ))}
           </div>
